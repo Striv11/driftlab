@@ -1,0 +1,7 @@
+{
+  "name": "driftlab",
+  "description": "Browser cognitive-psychology lab: Stroop, n-back and visual search, fit with a from-scratch drift-diffusion model.",
+  "language": "TypeScript",
+  "arc_days": 7,
+  "pages": true
+}
