@@ -18,6 +18,8 @@ Build the whole stack from scratch: a seeded RNG, a Euler–Maruyama diffusion s
 
 ```
  experiments (Stroop / n-back / visual search)      src/tasks   (day 2-4)
+   TrialScheduler: fixation → stimulus → response/timeout → ITI,
+   injectable Clock (performance.now in the browser, fake in tests)
         │ trials: {condition, correct, rt}
         ▼
  summarize() ── Pc, mean RT, var RT                  src/ddm/stats.ts
@@ -55,7 +57,8 @@ _Planned._ Day 1 only exposes the model core: `npx vitest run` shows parameter r
 See [PLAN.md](PLAN.md).
 
 - [x] Seeded RNG, diffusion simulator, EZ-diffusion fit
-- [ ] Stroop task, n-back, visual search
+- [x] Trial scheduler + seeded Stroop generator (day 2)
+- [ ] Stroop UI, n-back, visual search
 - [ ] Results explainer UI, light/dark, keyboard-first
 - [ ] Simulated-quantile fit, Playwright e2e, perf budgets
 
