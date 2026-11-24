@@ -1,0 +1,159 @@
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --text: #1c1d21;
+  --muted: #5b5f6a;
+  --border: #d9dbe1;
+  --accent: #3f51d9;
+  --accent-text: #ffffff;
+  --focus: #b45309;
+  --ink-red: #c62828;
+  --ink-green: #2e7d32;
+  --ink-blue: #1565c0;
+  --ink-yellow: #a16a00;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121317;
+    --surface: #1b1d23;
+    --text: #ececf0;
+    --muted: #a0a4b0;
+    --border: #353844;
+    --accent: #8c9bff;
+    --accent-text: #10121a;
+    --focus: #fbbf24;
+    --ink-red: #ff6b6b;
+    --ink-green: #6fd27a;
+    --ink-blue: #6cb2ff;
+    --ink-yellow: #f2c94c;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121317;
+  --surface: #1b1d23;
+  --text: #ececf0;
+  --muted: #a0a4b0;
+  --border: #353844;
+  --accent: #8c9bff;
+  --accent-text: #10121a;
+  --focus: #fbbf24;
+  --ink-red: #ff6b6b;
+  --ink-green: #6fd27a;
+  --ink-blue: #6cb2ff;
+  --ink-yellow: #f2c94c;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    16px/1.55 system-ui,
+    sans-serif;
+}
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+header.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+.lede,
+.muted {
+  color: var(--muted);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+button.primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.stage {
+  min-height: 12rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.stim {
+  font-size: clamp(2.5rem, 12vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.stim.red {
+  color: var(--ink-red);
+}
+.stim.green {
+  color: var(--ink-green);
+}
+.stim.blue {
+  color: var(--ink-blue);
+}
+.stim.yellow {
+  color: var(--ink-yellow);
+}
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.keys button {
+  min-width: 5.5rem;
+  min-height: 2.75rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.progress {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress > div {
+  height: 100%;
+  background: var(--accent);
+}
+.error {
+  color: var(--ink-red);
+}

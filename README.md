@@ -1,6 +1,6 @@
 # driftlab
 
-**Live demo: https://striv11.github.io/driftlab/** _(planned: deployed once the UI lands on day 3)_
+**Live demo: https://striv11.github.io/driftlab/** _(built by `pages.yml` on push to main; first deploy not yet confirmed)_
 
 > A cognitive-psychology lab in your browser: do Stroop, n-back and visual-search experiments, and watch a drift-diffusion model decompose your reaction times into _speed of thinking_, _caution_ and _motor delay_. Nothing leaves your device.
 
@@ -18,6 +18,7 @@ Build the whole stack from scratch: a seeded RNG, a Euler–Maruyama diffusion s
 
 ```
  experiments (Stroop / n-back / visual search)      src/tasks   (day 2-4)
+   UI shell: src/ui (DOM built with textContent only, light/dark tokens)
    TrialScheduler: fixation → stimulus → response/timeout → ITI,
    injectable Clock (performance.now in the browser, fake in tests)
         │ trials: {condition, correct, rt}
@@ -45,7 +46,7 @@ bash check.sh     # prettier, eslint, tsc, vitest, vite build
 
 ## Demo
 
-_Planned._ Day 1 only exposes the model core: `npx vitest run` shows parameter recovery (simulate 3000 trials from known v/a/Ter, fit with EZ-diffusion, recover within tolerance).
+The Stroop task is playable (`npm run dev`): 40 seeded trials, then per-condition accuracy, RT, EZ-diffusion v/a/Ter and a plain-language summary. The model core is also covered by tests: `npx vitest run` shows parameter recovery (simulate 3000 trials from known v/a/Ter, fit with EZ-diffusion, recover within tolerance).
 
 ## Design decisions & trade-offs
 
@@ -58,7 +59,8 @@ See [PLAN.md](PLAN.md).
 
 - [x] Seeded RNG, diffusion simulator, EZ-diffusion fit
 - [x] Trial scheduler + seeded Stroop generator (day 2)
-- [ ] Stroop UI, n-back, visual search
+- [x] Stroop UI with results (day 3)
+- [ ] n-back, visual search
 - [ ] Results explainer UI, light/dark, keyboard-first
 - [ ] Simulated-quantile fit, Playwright e2e, perf budgets
 

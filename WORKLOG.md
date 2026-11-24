@@ -18,3 +18,11 @@ Newest entries at the bottom. Each entry records what actually changed, what was
 - Tests use a fake clock to check RT arithmetic, timeouts, ignored input and hook ordering; generator tests check balance, determinism and edge counts.
 - Learned: keeping the scheduler free of DOM/timer globals makes timing logic trivially testable; key lookup needed a guard against prototype keys like `toString`.
 - Next (day 3): UI shell with design tokens, make Stroop playable end-to-end, wire results into the EZ fit, deploy via Pages.
+
+## 2026-11-24, Day 3
+
+- Added `src/analysis.ts`: per-condition Stroop analysis (valid-trial filtering of timeouts and <150 ms anticipations, accuracy, correct mean RT, EZ fit guarded against degenerate data) plus a plain-language interpretation, with unit tests including zero-variance and perfect-accuracy cases.
+- Added the UI shell (`src/ui/app.ts`, `style.css`): intro/empty state, keyboard + on-screen Stroop, progress, results table, light/dark tokens with a persisted toggle, visible focus styles. DOM is built without innerHTML.
+- Learned: `types: []` in tsconfig needs an explicit `vite/client` reference for CSS imports. EZ fit on ~20 trials per condition is noisy, so the UI says so.
+- Not done: I could not run a browser here, so the UI is typechecked and built but not manually played; the Pages deploy is unconfirmed, so PLAN day 3 is marked partial.
+- Next: verify deploy, then n-back (d') and visual search (set-size slopes).
