@@ -18,6 +18,7 @@ Build the whole stack from scratch: a seeded RNG, a Euler–Maruyama diffusion s
 
 ```
  experiments (Stroop / n-back / visual search)      src/tasks   (day 2-4)
+   stroop.ts, nback.ts (d′, log-linear), search.ts (set-size slopes)
    UI shell: src/ui (DOM built with textContent only, light/dark tokens)
    TrialScheduler: fixation → stimulus → response/timeout → ITI,
    injectable Clock (performance.now in the browser, fake in tests)
@@ -60,7 +61,7 @@ See [PLAN.md](PLAN.md).
 - [x] Seeded RNG, diffusion simulator, EZ-diffusion fit
 - [x] Trial scheduler + seeded Stroop generator (day 2)
 - [x] Stroop UI with results (day 3)
-- [ ] n-back, visual search
+- [~] n-back, visual search (generators, d′ scoring, set-size slopes done; UI pending)
 - [ ] Results explainer UI, light/dark, keyboard-first
 - [ ] Simulated-quantile fit, Playwright e2e, perf budgets
 

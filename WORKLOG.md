@@ -26,3 +26,12 @@ Newest entries at the bottom. Each entry records what actually changed, what was
 - Learned: `types: []` in tsconfig needs an explicit `vite/client` reference for CSS imports. EZ fit on ~20 trials per condition is noisy, so the UI says so.
 - Not done: I could not run a browser here, so the UI is typechecked and built but not manually played; the Pages deploy is unconfirmed, so PLAN day 3 is marked partial.
 - Next: verify deploy, then n-back (d') and visual search (set-size slopes).
+
+## 2026-11-25, Day 4 (part 1)
+
+- Added `src/tasks/nback.ts`: seeded n-back generator (exact target count, first n trials never targets, non-targets never equal the n-back letter), correctness, and scoring with hits/misses/FAs/CRs and d′ using the log-linear correction (stays finite for perfect runs), with an Acklam inverse-normal implementation checked against known quantiles.
+- Added `src/tasks/search.ts`: seeded feature/conjunction visual-search generator (set size × presence balanced, distractors never identical to the target) and per-presence RT-by-set-size OLS slopes using only correct, timed trials.
+- Tests: `nback-search.test.ts` (15 cases) incl. hand-computed d′, chance d′ = 0, exact slope recovery, junk-trial exclusion.
+- Learned: the tests caught a real bug: the key lookup `KEYS[k] ?? null` returns `Object.prototype.constructor` for "constructor"; fixed with `Object.hasOwn`. The same pattern in `keyToColor` (stroop.ts) is guarded only because its keys are single letters after lowercasing... worth hardening.
+- Not done: the n-back and visual-search UIs are not built, so day 4 stays partial (logic only; nothing manually played).
+- Next: wire both tasks into the UI shell (task picker, stimulus rendering, results with d′ and slopes), then harden `keyToColor`.
