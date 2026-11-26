@@ -157,3 +157,22 @@ td {
 .error {
   color: var(--ink-red);
 }
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 2.25rem);
+  gap: 0.35rem;
+  justify-content: center;
+}
+.item {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.item.red {
+  background: var(--ink-red);
+}
+.item.green {
+  background: var(--ink-green);
+}
+.item.circle {
+  border-radius: 50%;
+}

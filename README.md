@@ -47,7 +47,7 @@ bash check.sh     # prettier, eslint, tsc, vitest, vite build
 
 ## Demo
 
-The Stroop task is playable (`npm run dev`): 40 seeded trials, then per-condition accuracy, RT, EZ-diffusion v/a/Ter and a plain-language summary. The model core is also covered by tests: `npx vitest run` shows parameter recovery (simulate 3000 trials from known v/a/Ter, fit with EZ-diffusion, recover within tolerance).
+Stroop, 2-back and feature/conjunction visual search are playable (`npm run dev`). Stroop: 40 seeded trials, then per-condition accuracy, RT, EZ-diffusion v/a/Ter and a plain-language summary. The model core is also covered by tests: `npx vitest run` shows parameter recovery (simulate 3000 trials from known v/a/Ter, fit with EZ-diffusion, recover within tolerance).
 
 ## Design decisions & trade-offs
 
@@ -61,7 +61,7 @@ See [PLAN.md](PLAN.md).
 - [x] Seeded RNG, diffusion simulator, EZ-diffusion fit
 - [x] Trial scheduler + seeded Stroop generator (day 2)
 - [x] Stroop UI with results (day 3)
-- [~] n-back, visual search (generators, d′ scoring, set-size slopes done; UI pending)
+- [x] n-back, visual search (generators, d′, slopes, playable UI with plain-language results)
 - [ ] Results explainer UI, light/dark, keyboard-first
 - [ ] Simulated-quantile fit, Playwright e2e, perf budgets
 

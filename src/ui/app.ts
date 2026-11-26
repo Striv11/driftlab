@@ -12,6 +12,8 @@ import {
   type StroopColor,
   type StroopStimulus,
 } from "../tasks/stroop";
+import { el } from "./dom";
+import { NBACK_BLURB, SEARCH_BLURB, runNBack, runSearch } from "./tasks";
 
 const TRIALS = 40;
 const KEY_FOR: Record<StroopColor, string> = {
@@ -20,21 +22,6 @@ const KEY_FOR: Record<StroopColor, string> = {
   blue: "B",
   yellow: "Y",
 };
-
-/** Build an element with text content (never innerHTML, so nothing is parsed as markup). */
-function el<K extends keyof HTMLElementTagNameMap>(
-  tag: K,
-  props: { class?: string; text?: string; attrs?: Record<string, string> } = {},
-  children: Node[] = [],
-): HTMLElementTagNameMap[K] {
-  const node = document.createElement(tag);
-  if (props.class) node.className = props.class;
-  if (props.text !== undefined) node.textContent = props.text;
-  for (const [k, v] of Object.entries(props.attrs ?? {}))
-    node.setAttribute(k, v);
-  node.append(...children);
-  return node;
-}
 
 function themeToggle(): HTMLButtonElement {
   const root = document.documentElement;
@@ -74,6 +61,21 @@ function showIntro(content: HTMLElement): void {
     text: `Start Stroop (${TRIALS} trials)`,
   });
   start.addEventListener("click", () => runStroop(content));
+  const home = (): void => showIntro(content);
+  const taskCard = (
+    title: string,
+    blurb: string,
+    label: string,
+    run: () => void,
+  ): HTMLElement => {
+    const b = el("button", { text: label });
+    b.addEventListener("click", run);
+    return el("section", { class: "card" }, [
+      el("h2", { text: title }),
+      el("p", { text: blurb }),
+      b,
+    ]);
+  };
   content.replaceChildren(
     el("p", {
       class: "lede",
@@ -90,6 +92,18 @@ function showIntro(content: HTMLElement): void {
       }),
       start,
     ]),
+    taskCard("2-back", NBACK_BLURB, "Start 2-back", () =>
+      runNBack(content, home),
+    ),
+    taskCard("Feature search", SEARCH_BLURB, "Start feature search", () =>
+      runSearch(content, "feature", home),
+    ),
+    taskCard(
+      "Conjunction search",
+      "Same target (red circle), but distractors are red squares and green circles, so you must combine colour and shape.",
+      "Start conjunction search",
+      () => runSearch(content, "conjunction", home),
+    ),
   );
   start.focus();
 }

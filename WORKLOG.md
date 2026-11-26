@@ -35,3 +35,12 @@ Newest entries at the bottom. Each entry records what actually changed, what was
 - Learned: the tests caught a real bug: the key lookup `KEYS[k] ?? null` returns `Object.prototype.constructor` for "constructor"; fixed with `Object.hasOwn`. The same pattern in `keyToColor` (stroop.ts) is guarded only because its keys are single letters after lowercasing... worth hardening.
 - Not done: the n-back and visual-search UIs are not built, so day 4 stays partial (logic only; nothing manually played).
 - Next: wire both tasks into the UI shell (task picker, stimulus rendering, results with d′ and slopes), then harden `keyToColor`.
+
+## 2026-11-26, Day 4 (part 2)
+
+- Hardened `keyToColor` with `Object.hasOwn` (tests for `constructor`, `__proto__`).
+- Added `src/tasks/summaries.ts` (+ tests): plain-language readings of d′ (with response-bias hint) and set-size slopes (pop-out vs serial, absent/present ratio), tolerant of missing data.
+- Added `src/ui/tasks.ts`: 2-back and feature/conjunction search playable through a shared run shell (progress, keyboard J/F + buttons, cancel, results card); extracted `el` to `src/ui/dom.ts`; intro now lists all tasks; grid styles use the existing colour tokens.
+- Learned: the scheduler/hook split made adding tasks mostly rendering code; the logic stayed under test.
+- Not done: still no browser here, so the new screens are typechecked/built but not manually played; Pages deploy still unconfirmed. Feature search relies on red/green colour, which is a colour-blind accessibility gap.
+- Next: day 5 simulated-quantile fit (v, a, Ter, z) in a Web Worker; consider shape cue for accessibility.
