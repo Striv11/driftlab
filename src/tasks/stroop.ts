@@ -22,7 +22,8 @@ export const STROOP_KEYS: Readonly<Record<string, StroopColor>> = {
 
 /** Map a KeyboardEvent.key to a colour response, or null if the key is not mapped. */
 export function keyToColor(key: string): StroopColor | null {
-  return STROOP_KEYS[key.toLowerCase()] ?? null;
+  const k = key.toLowerCase();
+  return Object.hasOwn(STROOP_KEYS, k) ? (STROOP_KEYS[k] ?? null) : null;
 }
 
 /** Fisher-Yates shuffle driven by the seeded RNG; returns a new array. */

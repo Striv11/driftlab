@@ -92,6 +92,8 @@ describe("keyToColor", () => {
     expect(keyToColor("G")).toBe("green");
     expect(keyToColor("x")).toBeNull();
     expect(keyToColor("toString")).toBeNull();
+    expect(keyToColor("constructor")).toBeNull();
+    expect(keyToColor("__proto__")).toBeNull();
   });
 });
 
