@@ -27,7 +27,8 @@ Build the whole stack from scratch: a seeded RNG, a Euler–Maruyama diffusion s
  summarize() ── Pc, mean RT, var RT                  src/ddm/stats.ts
         ▼
  ezDiffusion()  closed form v, a, Ter               src/ddm/ez.ts
- quantile fit   simulate + minimise (day 5)         src/ddm/fit.ts
+ quantile fit   simulate + Nelder-Mead, optional z    src/ddm/fit.ts
+                runs off-thread via fit.worker.ts / fitClient.ts
         ▼
  results UI: parameters, plain-language explanation, RT distributions
  simulateTrials() + createRng()  ← ground truth for tests, "what-if" sliders
@@ -52,6 +53,7 @@ Stroop, 2-back and feature/conjunction visual search are playable (`npm run dev`
 ## Design decisions & trade-offs
 
 - EZ-diffusion first: closed form, fast, great for a few hundred trials, but assumes no starting-point bias or trial variability; the simulated fit later covers those.
+- Quantile fit: bins are the data's own .1/.3/.5/.7/.9 quantiles for correct and error RTs; the objective is a chi-square between observed and simulated bin counts, using common random numbers so Nelder-Mead sees a deterministic surface. Fit simulations use dt = 2 ms for speed.
 - Tests check statistical recovery with fixed seeds rather than snapshotting numbers.
 
 ## Roadmap
@@ -63,7 +65,8 @@ See [PLAN.md](PLAN.md).
 - [x] Stroop UI with results (day 3)
 - [x] n-back, visual search (generators, d′, slopes, playable UI with plain-language results)
 - [ ] Results explainer UI, light/dark, keyboard-first
-- [ ] Simulated-quantile fit, Playwright e2e, perf budgets
+- [x] Simulated-quantile fit (v, a, Ter, optional bias z) + Web Worker wrapper
+- [ ] Playwright e2e, perf budgets
 
 ## License
 

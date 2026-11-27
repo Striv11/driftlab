@@ -6,6 +6,8 @@ export interface DdmParams {
   a: number;
   /** Non-decision time (perception + motor), seconds. */
   ter: number;
+  /** Relative starting point in (0, 1); 0.5 (default) is unbiased, >0.5 favours the correct boundary. */
+  z?: number;
 }
 
 export interface Trial {

@@ -44,3 +44,12 @@ Newest entries at the bottom. Each entry records what actually changed, what was
 - Learned: the scheduler/hook split made adding tasks mostly rendering code; the logic stayed under test.
 - Not done: still no browser here, so the new screens are typechecked/built but not manually played; Pages deploy still unconfirmed. Feature search relies on red/green colour, which is a colour-blind accessibility gap.
 - Next: day 5 simulated-quantile fit (v, a, Ter, z) in a Web Worker; consider shape cue for accessibility.
+
+## 2026-11-27, Day 5
+
+- Added optional starting-point bias `z` to `DdmParams`/`simulateTrials` (validated to (0, 1)).
+- Added `src/ddm/fit.ts`: Nelder-Mead minimiser and `fitQuantiles` (v, a, Ter, optional z) minimising a quantile-bin chi-square against common-random-number simulations, starting from the EZ estimate with a fallback for degenerate data.
+- Added `fit.worker.ts` (pure `handleFit` + message protocol) and `fitClient.ts` (`fitInWorker`) so the UI can fit off-thread.
+- Tests: Nelder-Mead on a quadratic, determinism, recovery of v/a/Ter on unbiased data, and on biased data (z = 0.7) the fit recovers z and has lower parameter error than EZ.
+- Not done: the worker is not exercised in a real browser and is not yet wired into the UI; no timing budget measured yet (day 7). Pages deploy still unconfirmed.
+- Next: day 6 results explainer using the fit, RT histograms with model overlay, localStorage history, CSV export.
