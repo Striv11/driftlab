@@ -176,3 +176,20 @@ td {
 .item.circle {
   border-radius: 50%;
 }
+.hist {
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+}
+.hist .bar {
+  fill: var(--accent);
+  opacity: 0.55;
+}
+.hist .overlay {
+  stroke: var(--text);
+  stroke-width: 2;
+}
+.hist .axis {
+  fill: var(--muted);
+  font-size: 11px;
+}

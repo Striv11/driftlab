@@ -31,6 +31,7 @@ Build the whole stack from scratch: a seeded RNG, a Euler–Maruyama diffusion s
                 runs off-thread via fit.worker.ts / fitClient.ts
         ▼
  results UI: parameters, plain-language explanation, RT distributions
+ history.ts (localStorage, capped) · export.ts (CSV) · histogram.ts (obs vs model)
  simulateTrials() + createRng()  ← ground truth for tests, "what-if" sliders
 ```
 
@@ -64,7 +65,7 @@ See [PLAN.md](PLAN.md).
 - [x] Trial scheduler + seeded Stroop generator (day 2)
 - [x] Stroop UI with results (day 3)
 - [x] n-back, visual search (generators, d′, slopes, playable UI with plain-language results)
-- [ ] Results explainer UI, light/dark, keyboard-first
+- [~] Results explainer UI: Stroop has RT histogram with model overlay, local history, CSV export (other tasks pending)
 - [x] Simulated-quantile fit (v, a, Ter, optional bias z) + Web Worker wrapper
 - [ ] Playwright e2e, perf budgets
 

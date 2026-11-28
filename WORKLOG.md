@@ -53,3 +53,11 @@ Newest entries at the bottom. Each entry records what actually changed, what was
 - Tests: Nelder-Mead on a quadratic, determinism, recovery of v/a/Ter on unbiased data, and on biased data (z = 0.7) the fit recovers z and has lower parameter error than EZ.
 - Not done: the worker is not exercised in a real browser and is not yet wired into the UI; no timing budget measured yet (day 7). Pages deploy still unconfirmed.
 - Next: day 6 results explainer using the fit, RT histograms with model overlay, localStorage history, CSV export.
+
+## 2026-11-28, Day 6
+
+- Added `src/history.ts` (localStorage run history, injectable store, validated on load, capped at 50, tolerant of corrupt data and throwing storage), `src/export.ts` (RFC 4180 CSV with formula-injection guard) and `src/histogram.ts` (correct/error RT densities, model-predicted histogram via simulation). 8 new tests.
+- Stroop results now save to history, show an SVG histogram of correct RTs with the fitted model's outline, and offer a CSV download; the intro lists past runs with a clear button.
+- Learned: normalising densities by total trial count (not in-range count) keeps observed and simulated histograms comparable.
+- Not done: the overlay uses the EZ fit, not the quantile fit (worker not wired into UI yet); n-back/search results lack history/CSV; loading/error states for the fit; nothing browser-verified.
+- Next: wire `fitInWorker` into results with a loading state, extend history/CSV to the other tasks, then day 7 (Playwright, perf budget).

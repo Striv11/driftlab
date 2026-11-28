@@ -1,9 +1,14 @@
 import {
   analyzeStroop,
+  MIN_VALID_RT,
   type ConditionStats,
   type StroopAnalysis,
   type StroopResult,
 } from "../analysis";
+import { trialsToCsv } from "../export";
+import { loadHistory, saveRun, clearHistory, type RunRecord } from "../history";
+import { makeEdges, modelHistogram, rtHistogram } from "../histogram";
+import { histogramChart } from "./histogramChart";
 import { TrialScheduler } from "../tasks/engine";
 import {
   COLORS,
@@ -105,7 +110,64 @@ function showIntro(content: HTMLElement): void {
       () => runSearch(content, "conjunction", home),
     ),
   );
+  content.append(historyCard(content));
   start.focus();
+}
+
+const store = (): Storage | null => {
+  try {
+    return localStorage;
+  } catch {
+    return null;
+  }
+};
+
+function historyCard(content: HTMLElement): HTMLElement {
+  const s = store();
+  const runs = s ? loadHistory(s) : [];
+  const card = el("section", { class: "card" }, [
+    el("h2", { text: "History" }),
+  ]);
+  if (!runs.length) {
+    card.append(
+      el("p", {
+        class: "muted",
+        text: "No saved runs yet. Finished Stroop runs are stored only in this browser.",
+      }),
+    );
+    return card;
+  }
+  card.append(
+    el(
+      "ul",
+      {},
+      runs.slice(0, 10).map((r) =>
+        el("li", {
+          text: `${new Date(r.at).toLocaleString()} · ${r.task} · ${r.summary}`,
+        }),
+      ),
+    ),
+  );
+  const clear = el("button", { text: "Clear history" });
+  clear.addEventListener("click", () => {
+    if (s) clearHistory(s);
+    showIntro(content);
+  });
+  card.append(el("p", {}, [clear]));
+  return card;
+}
+
+function downloadCsv(results: readonly StroopResult[]): void {
+  const csv = trialsToCsv(results, (st) => ({
+    condition: st.condition,
+    stimulus: `${st.word}/${st.ink}`,
+  }));
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  const a = el("a", { attrs: { href: url, download: "driftlab-stroop.csv" } });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 function runStroop(content: HTMLElement): void {
@@ -201,6 +263,33 @@ function showResults(
   results: readonly StroopResult[],
 ): void {
   const analysis: StroopAnalysis = analyzeStroop(results);
+  const o = analysis.overall;
+  const s = store();
+  if (s && o.valid > 0) {
+    const rec: RunRecord = {
+      at: Date.now(),
+      task: "stroop",
+      trials: results.length,
+      accuracy: Number.isFinite(o.accuracy) ? o.accuracy : null,
+      meanRt: Number.isFinite(o.meanRt) ? o.meanRt : null,
+      summary: `${pct(o.accuracy)} correct, mean ${msText(o.meanRt)}`,
+    };
+    saveRun(s, rec);
+  }
+  const validTrials = results.flatMap((r) =>
+    r.rt !== null && r.rt >= MIN_VALID_RT
+      ? [{ correct: r.correct, rt: r.rt }]
+      : [],
+  );
+  const chart =
+    validTrials.length >= 5
+      ? histogramChart(
+          rtHistogram(validTrials, makeEdges(0.15, 1.5, 15)),
+          o.fit ? modelHistogram(o.fit, makeEdges(0.15, 1.5, 15), 2000) : null,
+        )
+      : null;
+  const csvBtn = el("button", { text: "Download CSV" });
+  csvBtn.addEventListener("click", () => downloadCsv(results));
   const head = el("tr", {}, [
     ...[
       "Condition",
@@ -230,11 +319,29 @@ function showResults(
           ]),
         ]),
       ]),
+      ...(chart
+        ? [
+            el("h3", { text: "Correct response times" }),
+            chart,
+            el("p", {
+              class: "muted",
+              text: o.fit
+                ? "Bars: your correct RTs. Line: what the fitted model predicts."
+                : "Bars: your correct RTs.",
+            }),
+          ]
+        : []),
       el("p", {
         class: "muted",
         text: "Parameters are EZ-diffusion estimates (noise fixed at 0.1); with ~20 trials per condition they are rough.",
       }),
-      el("p", {}, [again, document.createTextNode(" "), home]),
+      el("p", {}, [
+        again,
+        document.createTextNode(" "),
+        csvBtn,
+        document.createTextNode(" "),
+        home,
+      ]),
     ]),
   );
   again.focus();
